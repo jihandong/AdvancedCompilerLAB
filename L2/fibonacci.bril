@@ -1,0 +1,23 @@
+@main(input: int) {
+  f: int = call @fib input;
+  print f;
+  ret;
+}
+
+@fib(n: int): int {
+  one: int = const 1;
+  cond: bool = le n one;
+  br cond .leaf .recursive;
+
+.leaf:
+  ret n;
+
+.recursive:
+  two: int = const 2;
+  n1: int = sub n one;
+  n2: int = sub n two;
+  f1: int = call @fib n1;
+  f2: int = call @fib n2;
+  f: int = add f1 f2;
+  ret f;
+}
