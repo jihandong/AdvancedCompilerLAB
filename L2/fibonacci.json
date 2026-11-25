@@ -1,0 +1,145 @@
+{
+  "functions": [
+    {
+      "args": [
+        {
+          "name": "input",
+          "type": "int"
+        }
+      ],
+      "instrs": [
+        {
+          "args": [
+            "input"
+          ],
+          "dest": "f",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f"
+          ],
+          "op": "print"
+        },
+        {
+          "op": "ret"
+        }
+      ],
+      "name": "main"
+    },
+    {
+      "args": [
+        {
+          "name": "n",
+          "type": "int"
+        }
+      ],
+      "instrs": [
+        {
+          "dest": "one",
+          "op": "const",
+          "type": "int",
+          "value": 1
+        },
+        {
+          "args": [
+            "n",
+            "one"
+          ],
+          "dest": "cond",
+          "op": "le",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "cond"
+          ],
+          "labels": [
+            "leaf",
+            "recursive"
+          ],
+          "op": "br"
+        },
+        {
+          "label": "leaf"
+        },
+        {
+          "args": [
+            "n"
+          ],
+          "op": "ret"
+        },
+        {
+          "label": "recursive"
+        },
+        {
+          "dest": "two",
+          "op": "const",
+          "type": "int",
+          "value": 2
+        },
+        {
+          "args": [
+            "n",
+            "one"
+          ],
+          "dest": "n1",
+          "op": "sub",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n",
+            "two"
+          ],
+          "dest": "n2",
+          "op": "sub",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n1"
+          ],
+          "dest": "f1",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n2"
+          ],
+          "dest": "f2",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f1",
+            "f2"
+          ],
+          "dest": "f",
+          "op": "add",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f"
+          ],
+          "op": "ret"
+        }
+      ],
+      "name": "fib",
+      "type": "int"
+    }
+  ]
+}
