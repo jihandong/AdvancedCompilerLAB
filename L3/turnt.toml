@@ -1,0 +1,7 @@
+[envs.tdce]
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L3.tdce)'
+output."tdce.out" = "-"
+
+[envs.lvn]
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L3.lvn)'
+output."lvn.out" = "-"
