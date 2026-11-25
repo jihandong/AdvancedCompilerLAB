@@ -1,0 +1,153 @@
+{
+  "main": {
+    "blocks": {
+      "__b0": [
+        {
+          "args": [
+            "input"
+          ],
+          "dest": "f",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f"
+          ],
+          "op": "print"
+        },
+        {
+          "op": "ret"
+        }
+      ]
+    },
+    "succs": {
+      "__b0": []
+    },
+    "preds": {
+      "__b0": []
+    }
+  },
+  "fib": {
+    "blocks": {
+      "__b0": [
+        {
+          "dest": "one",
+          "op": "const",
+          "type": "int",
+          "value": 1
+        },
+        {
+          "args": [
+            "n",
+            "one"
+          ],
+          "dest": "cond",
+          "op": "le",
+          "type": "bool"
+        },
+        {
+          "args": [
+            "cond"
+          ],
+          "labels": [
+            "leaf",
+            "recursive"
+          ],
+          "op": "br"
+        }
+      ],
+      "leaf": [
+        {
+          "args": [
+            "n"
+          ],
+          "op": "ret"
+        }
+      ],
+      "recursive": [
+        {
+          "dest": "two",
+          "op": "const",
+          "type": "int",
+          "value": 2
+        },
+        {
+          "args": [
+            "n",
+            "one"
+          ],
+          "dest": "n1",
+          "op": "sub",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n",
+            "two"
+          ],
+          "dest": "n2",
+          "op": "sub",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n1"
+          ],
+          "dest": "f1",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "n2"
+          ],
+          "dest": "f2",
+          "funcs": [
+            "fib"
+          ],
+          "op": "call",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f1",
+            "f2"
+          ],
+          "dest": "f",
+          "op": "add",
+          "type": "int"
+        },
+        {
+          "args": [
+            "f"
+          ],
+          "op": "ret"
+        }
+      ]
+    },
+    "succs": {
+      "__b0": [
+        "leaf",
+        "recursive"
+      ],
+      "leaf": [],
+      "recursive": []
+    },
+    "preds": {
+      "__b0": [],
+      "leaf": [
+        "__b0"
+      ],
+      "recursive": [
+        "__b0"
+      ]
+    }
+  }
+}
