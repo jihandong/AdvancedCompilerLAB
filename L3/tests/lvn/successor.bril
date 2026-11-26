@@ -1,0 +1,7 @@
+@main {
+  x: int = const 6;
+  y: int = const 6;
+  jmp .next;
+.next:
+  print y;
+}

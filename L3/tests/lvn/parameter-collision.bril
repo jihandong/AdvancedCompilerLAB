@@ -1,0 +1,5 @@
+# ARGS: 7
+@main(__lvn0_x: int) {
+  x: int = const 1;
+  print x __lvn0_x;
+}

@@ -1,0 +1,13 @@
+@main {
+  first: bool = const true;
+  cond: bool = const true;
+  first: bool = const false;
+  br cond .yes .no;
+.yes:
+  answer: int = const 1;
+  print answer;
+  ret;
+.no:
+  answer: int = const 0;
+  print answer;
+}

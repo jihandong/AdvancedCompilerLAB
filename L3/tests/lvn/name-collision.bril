@@ -1,0 +1,5 @@
+@main {
+  x: int = const 1;
+  __lvn0_x: int = const 2;
+  print __lvn0_x;
+}

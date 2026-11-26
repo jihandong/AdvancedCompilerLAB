@@ -1,0 +1,9 @@
+@main {
+  a: int = call @emit;
+  b: int = call @emit;
+}
+@emit: int {
+  n: int = const 7;
+  print n;
+  ret n;
+}

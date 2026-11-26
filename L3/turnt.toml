@@ -1,7 +1,18 @@
+# Run these examples from the L3 directory.
+# View the Bril JSON produced by TDCE. Snapshot tests use .tdce.out files.
+#       turnt -p -e tdce tests/lvn/duplicate.bril
 [envs.tdce]
 command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L3.tdce)'
 output."tdce.out" = "-"
 
+# Run the LVN-optimized programs and compare their output with the .out files.
+#       turnt --diff -e lvn tests/lvn/*.bril
 [envs.lvn]
-command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L3.lvn)'
-output."lvn.out" = "-"
+command = """bash -o pipefail -c 'bril2json | python3 -B lvn.py | brili "$@"' -- {args} < "{filename}""""
+
+# Run the original program with brili. Use --save to write its output to the .out file.
+#       turnt -e expected-output --save tests/lvn/parameter.bril
+# Check an existing snapshot with turnt -e expected-output tests/lvn/parameter.bril.
+[envs.expected-output]
+default = false
+command = """bash -o pipefail -c 'bril2json | brili "$@"' -- {args} < "{filename}""""

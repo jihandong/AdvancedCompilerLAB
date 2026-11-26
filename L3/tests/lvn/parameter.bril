@@ -1,0 +1,4 @@
+# ARGS: 7
+@main(x: int) {
+  print x;
+}
