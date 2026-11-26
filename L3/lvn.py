@@ -12,7 +12,6 @@ def lvn(instrs: list[Instruction]) -> list[Instruction]:
     # FIXME: Preserve outgoing values under names that successor blocks can read.
     # FIXME: Number variables read from predecessors when starting a new block.
     # FIXME: Prevent generated temporary names from colliding with source names.
-    # FIXME: Distinguish positive and negative floating-point zero in constant keys.
     OVERWRITABLE_OPS = (
         "add", "sub", "mul", "eq", "lt", "le", "gt", "ge", "not", "and", "or",
     )
@@ -27,7 +26,10 @@ def lvn(instrs: list[Instruction]) -> list[Instruction]:
     def calculate_expr(instr: Instruction) -> tuple | None:
         op = instr["op"]
         if op == "const":
-            return (op, instr["type"], instr["value"])
+            value = instr["value"]
+            if instr["type"] == "float" and value == 0.0:
+                value = float(value).hex() # +0.0 != -0.0
+            return (op, instr["type"], value)
         elif op in OVERWRITABLE_OPS:
             return (op, tuple(var2idx[x] for x in instr["args"]))
         else:
