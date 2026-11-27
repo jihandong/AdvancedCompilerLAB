@@ -1,0 +1,2 @@
+# Run from the repository root: turnt --diff L4/tests/*.bril
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L4.liveness)'
