@@ -7,13 +7,14 @@ Instruction = dict[str, Any]
 
 def tdce(instrs: list[Instruction]) -> list[Instruction]:
     """Eliminate the duplicated assign"""
+    TERMINATORS = ("jmp", "br", "ret")
     REMOVABLE_OPS = ("const", "id", "add", "sub", "mul",
         "eq", "lt", "le", "gt", "ge", "not", "and", "or")
     last_defs : dict[str, int] = {} # id -> __LINE__
-    dead : set[int] = {}
+    dead : set[int] = set()
 
     for i, instr in enumerate(instrs):
-        if "label" in instr or instr["op"] in ("jmp", "br", "ret"):
+        if "label" in instr or instr["op"] in TERMINATORS:
             last_defs.clear() # end of scope
             continue
 
