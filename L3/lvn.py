@@ -57,7 +57,7 @@ def lvn(instrs: list[Instruction], params: list[Instruction]) -> list[Instructio
         for name in instr.get("args", ()):
             if name not in inblock_vars:
                 cross_vars.add(name)
-        if ("label" in instr and i != 0) or instr["op"] in TERMINATORS:
+        if ("label" in instr and i != 0) or instr.get("op") in TERMINATORS:
             inblock_vars.clear()
         elif "dest" in instr:
             inblock_vars.add(instr["dest"])
