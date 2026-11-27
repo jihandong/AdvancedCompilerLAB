@@ -10,29 +10,32 @@ def tdce(instrs: list[Instruction]) -> list[Instruction]:
     TERMINATORS = ("jmp", "br", "ret")
     REMOVABLE_OPS = ("const", "id", "add", "sub", "mul",
         "eq", "lt", "le", "gt", "ge", "not", "and", "or")
-    last_defs : dict[str, int] = {} # id -> __LINE__
-    dead : set[int] = set()
+    while True:
+        last_defs : dict[str, int] = {} # id -> __LINE__
+        dead : set[int] = set()
 
-    for i, instr in enumerate(instrs):
-        if "label" in instr or instr["op"] in TERMINATORS:
-            last_defs.clear() # end of scope
-            continue
+        for i, instr in enumerate(instrs):
+            if "label" in instr or instr["op"] in TERMINATORS:
+                last_defs.clear() # end of scope
+                continue
 
-        # Check the users
-        for arg in instr.get("args", ()):
-            last_defs.pop(arg, None)
+            # Check the users
+            for arg in instr.get("args", ()):
+                last_defs.pop(arg, None)
 
-        # Check the defs
-        if "dest" in instr:
-            x = instr["dest"]
-            if x in last_defs:
-                old = last_defs[x]
-                if instrs[old]["op"] in REMOVABLE_OPS:
-                    dead.add(old)
-            last_defs[x] = i
+            # Check the defs
+            if "dest" in instr:
+                x = instr["dest"]
+                if x in last_defs:
+                    old = last_defs[x]
+                    if instrs[old]["op"] in REMOVABLE_OPS:
+                        dead.add(old)
+                last_defs[x] = i
 
-    return [instr for i, instr in enumerate(instrs)
-            if i not in dead]
+        if not dead:
+            return instrs
+
+        instrs = [instr for i, instr in enumerate(instrs) if i not in dead]
 
 
 if __name__ == "__main__":
