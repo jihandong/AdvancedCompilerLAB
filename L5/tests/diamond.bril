@@ -1,0 +1,10 @@
+@main(cond: bool) {
+.entry:
+  br cond .left .right;
+.left:
+  jmp .join;
+.right:
+  jmp .join;
+.join:
+  ret;
+}

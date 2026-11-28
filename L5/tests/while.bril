@@ -1,0 +1,13 @@
+# From https://github.com/sampsyo/bril/blob/1c8604d22a2655ca0d5bdaf4bb70390b5ca23527/examples/test/dom/while.bril
+@main(a: int) {
+.while.cond:
+  zero: int = const 0;
+  is_term: bool = eq a zero;
+  br is_term .while.finish .while.body;
+.while.body:
+  one: int = const 1;
+  a: int = sub a one;
+  jmp .while.cond;
+.while.finish:
+  print a;
+}

@@ -1,0 +1,12 @@
+{
+  "main": {
+    "entry": [],
+    "join": [],
+    "left": [
+      "join"
+    ],
+    "right": [
+      "join"
+    ]
+  }
+}

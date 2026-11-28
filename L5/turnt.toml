@@ -1,0 +1,14 @@
+# Run from the repository root: turnt --diff L5/tests/*.bril
+# Run only dominators: turnt --diff -e dom L5/tests/*.bril
+
+[envs.dom]
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L5.dominance dom)'
+output."dom.json" = "-"
+
+[envs.tree]
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L5.dominance tree)'
+output."tree.json" = "-"
+
+[envs.frontier]
+command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L5.dominance frontier)'
+output."frontier.json" = "-"
