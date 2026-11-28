@@ -39,7 +39,16 @@ def dominators(entry: str, succs: AdjTable, preds: AdjTable) -> BlockSets:
 
 def dominator_tree(dom: BlockSets) -> BlockSets:
     """Map each block to its immediate children, including leaves."""
-    raise NotImplementedError("dominator_tree")
+    tree: BlockSets = {block: set() for block in dom}
+
+    for block in tree:
+        strict = dom[block] - {block}
+        if strict:
+            # NOTE: block with most dominators, must also be closest to current
+            parent = max(strict, key=lambda block: len(dom[block]))
+            tree[parent].add(block)
+
+    return tree
 
 
 def dominance_frontier(dom: BlockSets, preds: AdjTable) -> BlockSets:
