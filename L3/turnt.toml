@@ -1,9 +1,7 @@
-# Run these examples from the L3 directory.
-# View the Bril JSON produced by TDCE. Snapshot tests use .tdce.out files.
-#       turnt -p -e tdce tests/lvn/duplicate.bril
+# Run both optimizers from the L3 directory: turnt --diff tests/lvn/*.bril
+# Inspect TDCE's JSON: bril2json < tests/lvn/duplicate.bril | python3 -B tdce.py
 [envs.tdce]
-command = 'bril2json < "{filename}" | (cd .. && python3 -B -m L3.tdce)'
-output."tdce.out" = "-"
+command = """bash -o pipefail -c 'bril2json | python3 -B tdce.py | brili "$@"' -- {args} < "{filename}""""
 
 # Run the LVN-optimized programs and compare their output with the .out files.
 #       turnt --diff -e lvn tests/lvn/*.bril

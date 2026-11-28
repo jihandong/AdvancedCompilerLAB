@@ -32,7 +32,8 @@ def data_flow_analysis(
 
     return (inputs, outputs) if forward else (outputs, inputs)
 
-def record_vars(blocks: Blocks) -> tuple[VarTable, VarTable]:
+def liveness(blocks: Blocks, succs: AdjTable, preds: AdjTable) -> tuple[VarTable, VarTable]:
+    """Return (live_in, live_out), with each table keyed by block name."""
     uses: VarTable = {label: set() for label in blocks} # use before defined
     defs: VarTable = {label: set() for label in blocks} # all defines
 
@@ -44,11 +45,6 @@ def record_vars(blocks: Blocks) -> tuple[VarTable, VarTable]:
             if "dest" in instr:
                 defs[label].add(instr["dest"])
 
-    return uses, defs
-
-def liveness(blocks: Blocks, succs: AdjTable, preds: AdjTable) -> tuple[VarTable, VarTable]:
-    """Return (live_in, live_out), with each table keyed by block name."""
-    uses, defs = record_vars(blocks)
     return data_flow_analysis(succs, preds,
         forward=False,
         init=set,
