@@ -15,7 +15,7 @@ def form_blocks(instrs: list[Instruction]) -> Blocks:
     label = ""
     def save_block():
         nonlocal label, block
-        # XXX: might be label confict
+        # FIXME: might be label confict
         if label: # including empty but labeled block
             blocks[label] = block
         elif block: # unlabled non-empty block

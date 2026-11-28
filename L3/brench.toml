@@ -16,7 +16,7 @@ pipeline = [
 ]
 
 [runs.lvn]
-pipeline = ["bril2json", "python3 -B lvn.py", "DENO_V8_FLAGS=--stack-size=4096 brili -p {args}"]
+pipeline = ["bril2json", "PYTHONPATH=.. python3 -B lvn.py", "DENO_V8_FLAGS=--stack-size=4096 brili -p {args}"]
 
 [runs.lvn_tdce]
-pipeline = ["bril2json", "python3 -B lvn_tdce.py", "DENO_V8_FLAGS=--stack-size=4096 brili -p {args}"]
+pipeline = ["bril2json", "PYTHONPATH=.. python3 -B lvn_tdce.py", "DENO_V8_FLAGS=--stack-size=4096 brili -p {args}"]

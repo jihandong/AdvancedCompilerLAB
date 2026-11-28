@@ -3,9 +3,12 @@ import sys
 from collections import OrderedDict
 from typing import Any
 
+from L2.build_cfg import build_cfg, form_blocks
+from L4.liveness import liveness
+
 Instruction = dict[str, Any]
 
-
+# TODO, XXX: optimize by DFA, which might be better
 def lvn(instrs: list[Instruction], params: list[Instruction]) -> list[Instruction]:
     """Return one function's instructions after value numbering each block."""
     # TODO: Apply LVN within blocks that read values defined in predecessor blocks.
@@ -14,7 +17,6 @@ def lvn(instrs: list[Instruction], params: list[Instruction]) -> list[Instructio
         "add", "sub", "mul", "eq", "lt", "le", "gt", "ge", "not", "and", "or",
     )
 
-    cross_vars: set[str] = set()
     var2idx: dict[str, int] = {}
     expr2var: OrderedDict[tuple, str] = {}
 
@@ -45,22 +47,10 @@ def lvn(instrs: list[Instruction], params: list[Instruction]) -> list[Instructio
         return instr
 
     # 1. detect cross block vars, won't rename or optimize using instrs
-    inblock_vars: set[str] = set()
-    entry_label = instrs[0].get("label") if len(instrs) > 0 else None
-    if entry_label is not None and any(
-        entry_label in instr.get("labels", ()) for instr in instrs):
-        pass # Corner Case: 1st instr is label, accessable by future instr
-    else:
-        inblock_vars = {param["name"] for param in params}
-
-    for i, instr in enumerate(instrs):
-        for name in instr.get("args", ()):
-            if name not in inblock_vars:
-                cross_vars.add(name)
-        if ("label" in instr and i != 0) or instr.get("op") in TERMINATORS:
-            inblock_vars.clear()
-        elif "dest" in instr:
-            inblock_vars.add(instr["dest"])
+    blocks = form_blocks(instrs)
+    succs, preds = build_cfg(blocks)
+    _, live_out = liveness(blocks, succs, preds)
+    cross_vars = set().union(*live_out.values())
 
     # 2. on-the-fly instr generate
     reset_tables()

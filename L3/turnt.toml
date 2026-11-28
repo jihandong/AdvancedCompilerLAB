@@ -6,7 +6,7 @@ command = """bash -o pipefail -c 'bril2json | python3 -B tdce.py | brili "$@"' -
 # Run the LVN-optimized programs and compare their output with the .out files.
 #       turnt --diff -e lvn tests/lvn/*.bril
 [envs.lvn]
-command = """bash -o pipefail -c 'bril2json | python3 -B lvn.py | brili "$@"' -- {args} < "{filename}""""
+command = """bash -o pipefail -c 'bril2json | PYTHONPATH=.. python3 -B lvn.py | brili "$@"' -- {args} < "{filename}""""
 
 # Run the original program with brili. Use --save to write its output to the .out file.
 #       turnt -e expected-output --save tests/lvn/parameter.bril
